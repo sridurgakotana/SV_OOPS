@@ -1,0 +1,36 @@
+//write a constraint for 4 bit dynamic array with the size of 10 ad store the random values in to the dynamic array into the descending order
+class sample;
+  rand bit [3:0]a[];
+  int i;
+  constraint c1{a.size inside{[10:15]};
+                foreach(a[i])
+                  if(i>0)
+                    a[i]<a[i-1];
+                     }
+endclass
+
+module tb;
+  sample s;
+  initial begin
+    s=new();
+         assert(s.randomize());
+      foreach(s.a[i])
+        $display("a[%0d]=%0d",i,s.a[i]);
+    end
+endmodule
+
+OUTPUT:
+a[0]=15
+# KERNEL: a[1]=14
+# KERNEL: a[2]=13
+# KERNEL: a[3]=12
+# KERNEL: a[4]=11
+# KERNEL: a[5]=10
+# KERNEL: a[6]=9
+# KERNEL: a[7]=8
+# KERNEL: a[8]=7
+# KERNEL: a[9]=6
+# KERNEL: a[10]=5
+# KERNEL: a[11]=2
+# KERNEL: a[12]=1
+# KERNEL: a[13]=0
