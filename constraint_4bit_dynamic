@@ -1,0 +1,38 @@
+using constraints 
+//consider a 4-bit dynamic array in such a way that the size of the given dynamic array varies from [10:15] and store even values in odd locations and odd values in even locations
+
+class sample;
+  rand bit [3:0]a[];
+  int i;
+  constraint c1{a.size inside{[10:15]};
+                foreach(a[i])
+                  i%2==0 -> a[i]%2==1;
+                   i%2==1 -> a[i]%2==0;
+               }
+endclass
+
+module tb;
+  sample s;
+  initial begin
+    s=new();
+         assert(s.randomize());
+      foreach(s.a[i])
+        $display("a[%0d]=%0d",i,s.a[i]);
+    end
+endmodule
+    
+OUTPUT:
+a[0]=3
+# KERNEL: a[1]=8
+# KERNEL: a[2]=5
+# KERNEL: a[3]=10
+# KERNEL: a[4]=15
+# KERNEL: a[5]=10
+# KERNEL: a[6]=13
+# KERNEL: a[7]=11
+# KERNEL: a[8]=11
+# KERNEL: a[9]=13
+# KERNEL: a[10]=9
+# KERNEL: a[11]=13
+# KERNEL: a[12]=7
+# KERNEL: a[13]=4
